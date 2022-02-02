@@ -56,7 +56,13 @@ jobs:
           cd bin/targets/*/*
           zip -r -o -q -9 x86_64.zip . -i *.gz
           curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/x86_64" -F "file=@x86_64.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-
+      
+      - name: Remove workflow runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 1
+          
   RaspberryPi:
     runs-on: ubuntu-latest
     steps:
@@ -107,7 +113,13 @@ jobs:
           cd bin/targets/*/*
           zip -r -o -q -9 rpi.zip . -i *.gz
           curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/RaspberryPi" -F "file=@rpi.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-
+      
+      - name: Remove workflow runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 1
+          
   MT7621:
     runs-on: ubuntu-latest
     steps:
@@ -158,7 +170,13 @@ jobs:
           cd bin/targets/*/*
           zip -r -o -q -9 mt7621.zip . -i *.bin
           curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/XiaoMi/XiaoMi-AC2100" -F "file=@mt7621.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
-
+      
+      - name: Remove workflow runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 1
+          
   MT7621-Openwrt:
     runs-on: ubuntu-latest
     steps:
@@ -209,3 +227,10 @@ jobs:
           cd bin/targets/*/*
           zip -r -o -q -9 mt7621.zip . -i *.bin
           curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/Openwrt/XiaoMi/XiaoMi-AC2100" -F "file=@mt7621.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
+      
+      - name: Remove workflow runs
+        uses: Mattraks/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 1
+          
