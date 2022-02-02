@@ -2,7 +2,7 @@ name: Build-lede
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 12 * * *
+    - cron: 0 15 * * *
 
 jobs:
   x86:
@@ -41,9 +41,6 @@ jobs:
           echo -e "Will be use $(nproc) thread compile"
           sudo df -h
           make -j$(nproc) || make -j1 V=sc
-          # 这里有个编译报错，必须先clean 一下。 详见 ERROR: package/lean/libcryptopp failed to build.
-          make target/linux/{clean,compile}
-          make -j$(nproc) || make -j1 V=s
           sudo df -h
 
       - name: Only Upload firmware
@@ -95,9 +92,6 @@ jobs:
           echo -e "Will be use $(nproc) thread compile"
           sudo df -h
           make -j$(nproc) || make -j1 V=sc
-          # 这里有个编译报错，必须先clean 一下。 详见 ERROR: package/lean/libcryptopp failed to build.
-          make clean
-          make -j$(nproc) || make -j1 V=s
           sudo df -h
 
       - name: Only Upload firmware
@@ -149,9 +143,6 @@ jobs:
           echo -e "Will be use $(nproc) thread compile"
           sudo df -h
           make -j$(nproc) || make -j1 V=sc
-          # 这里有个编译报错，必须先clean 一下。 详见 ERROR: package/lean/libcryptopp failed to build.
-          make clean
-          make -j$(nproc) || make -j1 V=s
           sudo df -h
 
       - name: Only Upload firmware
