@@ -19,6 +19,11 @@ jobs:
         with:
           repository: coolsnowwolf/lede
           fetch-depth: 0
+      
+      - name: Cache
+        uses: 1orz/cacheopenwrt@main
+        with:
+          ccache: true
           
       - name: Download and Load custom configuration
         run: |
@@ -69,6 +74,11 @@ jobs:
         with:
           repository: coolsnowwolf/lede
           fetch-depth: 0
+          
+      - name: Cache
+        uses: 1orz/cacheopenwrt@main
+        with:
+          ccache: true
 
       - name: Download and Load custom configuration
         run: |
@@ -118,6 +128,11 @@ jobs:
         with:
           repository: coolsnowwolf/lede
           fetch-depth: 0
+      
+      - name: Cache
+        uses: 1orz/cacheopenwrt@main
+        with:
+          ccache: true
 
       - name: Download and Load custom configuration
         run: |
@@ -167,6 +182,11 @@ jobs:
         with:
           repository: openwrt/openwrt
           fetch-depth: 0
+      
+      - name: Cache
+        uses: 1orz/cacheopenwrt@main
+        with:
+          ccache: true
 
       - name: Download and Load custom configuration
         run: |
