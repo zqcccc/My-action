@@ -218,7 +218,7 @@ jobs:
         uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: mt7621-openwrt
+          name: mt7621Openwrt
           path: bin/targets/*/*
 
       # - name: Upload firmware to Download Station
