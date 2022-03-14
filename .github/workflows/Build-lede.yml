@@ -149,6 +149,7 @@ jobs:
       - name: Download package
         run: |
           make download -j8 >/dev/null 2>&1
+          make dirclean # https://github.com/fw876/helloworld/issues/758
 
       - name: When Multi-core compile failure will be rollback to Single core compile
         run: |
@@ -206,6 +207,7 @@ jobs:
       - name: Download package
         run: |
           make download -j8 >/dev/null 2>&1
+          make dirclean # https://github.com/fw876/helloworld/issues/758
 
       - name: When Multi-core compile failure will be rollback to Single core compile
         run: |
