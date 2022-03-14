@@ -2,123 +2,123 @@ name: Build-lede
 on:
   workflow_dispatch:
   schedule:
-    - cron: 0 1 * * 5
+    - cron: 0 0 * * *
 
 jobs:
-  x86:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Prepare environment.
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/prenv.sh)
+  # x86:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Prepare environment.
+  #       env:
+  #         DEBIAN_FRONTEND: noninteractive
+  #       run: |
+  #         bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/prenv.sh)
 
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          repository: coolsnowwolf/lede
-          fetch-depth: 0
+  #     - name: Checkout repo
+  #       uses: actions/checkout@v2
+  #       with:
+  #         repository: coolsnowwolf/lede
+  #         fetch-depth: 0
       
-      - name: Cache
-        uses: 1orz/cacheopenwrt@main
-        with:
-          ccache: true
+  #     - name: Cache
+  #       uses: 1orz/cacheopenwrt@main
+  #       with:
+  #         ccache: true
           
-      - name: Download and Load custom configuration
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/x86_64/.config >.config
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/diy.sh)
-          echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
+  #     - name: Download and Load custom configuration
+  #       run: |
+  #         curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/x86_64/.config >.config
+  #         bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/diy.sh)
+  #         echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
 
-      - name: Download package
-        run: |
-          make download -j8 >/dev/null 2>&1
-          sudo df -h
+  #     - name: Download package
+  #       run: |
+  #         make download -j8 >/dev/null 2>&1
+  #         sudo df -h
 
-      - name: When Multi-core compile failure will be rollback to Single core compile
-        run: |
-          echo -e "Will be use $(nproc) thread compile"
-          sudo df -h
-          make -j$(nproc) || make -j1 V=sc
-          sudo df -h
+  #     - name: When Multi-core compile failure will be rollback to Single core compile
+  #       run: |
+  #         echo -e "Will be use $(nproc) thread compile"
+  #         sudo df -h
+  #         make -j$(nproc) || make -j1 V=sc
+  #         sudo df -h
 
-      - name: Only Upload firmware
-        uses: actions/upload-artifact@v2
-        if: success()
-        with:
-          name: x86_64
-          path: bin/targets/*/*
+  #     - name: Only Upload firmware
+  #       uses: actions/upload-artifact@v2
+  #       if: success()
+  #       with:
+  #         name: x86_64
+  #         path: bin/targets/*/*
 
-      # - name: Upload firmware to Download Station
-      #   if: success()
-      #   run: |
-      #     cd bin/targets/*/*
-      #     zip -r -o -q -9 x86_64.zip . -i *.gz
-      #     curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/x86_64" -F "file=@x86_64.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
+  #     # - name: Upload firmware to Download Station
+  #     #   if: success()
+  #     #   run: |
+  #     #     cd bin/targets/*/*
+  #     #     zip -r -o -q -9 x86_64.zip . -i *.gz
+  #     #     curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/x86_64" -F "file=@x86_64.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
       
-      - name: Remove workflow runs
-        uses: Mattraks/delete-workflow-runs@main
-        with:
-          retain_days: 1
-          keep_minimum_runs: 1
+  #     - name: Remove workflow runs
+  #       uses: Mattraks/delete-workflow-runs@main
+  #       with:
+  #         retain_days: 1
+  #         keep_minimum_runs: 1
           
-  RaspberryPi:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Prepare environment.
-        env:
-          DEBIAN_FRONTEND: noninteractive
-        run: |
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/prenv.sh)
+  # RaspberryPi:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Prepare environment.
+  #       env:
+  #         DEBIAN_FRONTEND: noninteractive
+  #       run: |
+  #         bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/prenv.sh)
 
-      - name: Checkout repo
-        uses: actions/checkout@v2
-        with:
-          repository: coolsnowwolf/lede
-          fetch-depth: 0
+  #     - name: Checkout repo
+  #       uses: actions/checkout@v2
+  #       with:
+  #         repository: coolsnowwolf/lede
+  #         fetch-depth: 0
           
-      - name: Cache
-        uses: 1orz/cacheopenwrt@main
-        with:
-          ccache: true
+  #     - name: Cache
+  #       uses: 1orz/cacheopenwrt@main
+  #       with:
+  #         ccache: true
 
-      - name: Download and Load custom configuration
-        run: |
-          curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/rpi/.config >.config
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/diy.sh)
-          echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
+  #     - name: Download and Load custom configuration
+  #       run: |
+  #         curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/rpi/.config >.config
+  #         bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/diy.sh)
+  #         echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
 
-      - name: Download package
-        run: |
-          make download -j8 >/dev/null 2>&1
+  #     - name: Download package
+  #       run: |
+  #         make download -j8 >/dev/null 2>&1
 
-      - name: When Multi-core compile failure will be rollback to Single core compile
-        run: |
-          echo -e "Will be use $(nproc) thread compile"
-          sudo df -h
-          make -j$(nproc) || make -j1 V=sc
-          sudo df -h
+  #     - name: When Multi-core compile failure will be rollback to Single core compile
+  #       run: |
+  #         echo -e "Will be use $(nproc) thread compile"
+  #         sudo df -h
+  #         make -j$(nproc) || make -j1 V=sc
+  #         sudo df -h
 
-      - name: Only Upload firmware
-        uses: actions/upload-artifact@v2
-        if: always()
-        with:
-          name: RaspberryPi
-          path: bin/targets/*/*
+  #     - name: Only Upload firmware
+  #       uses: actions/upload-artifact@v2
+  #       if: always()
+  #       with:
+  #         name: RaspberryPi
+  #         path: bin/targets/*/*
 
-      # - name: Upload firmware to Download Station
-      #   if: success()
-      #   run: |
-      #     cd bin/targets/*/*
-      #     zip -r -o -q -9 rpi.zip . -i *.gz
-      #     curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/RaspberryPi" -F "file=@rpi.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
+  #     # - name: Upload firmware to Download Station
+  #     #   if: success()
+  #     #   run: |
+  #     #     cd bin/targets/*/*
+  #     #     zip -r -o -q -9 rpi.zip . -i *.gz
+  #     #     curl -F "token=${{ secrets.UPLOAD_TOKEN }}" -F "location=Router/lede/RaspberryPi" -F "file=@rpi.zip" ${{ secrets.MAIN_UPLOAD_PROCESSOR }}
       
-      - name: Remove workflow runs
-        uses: Mattraks/delete-workflow-runs@main
-        with:
-          retain_days: 1
-          keep_minimum_runs: 1
+  #     - name: Remove workflow runs
+  #       uses: Mattraks/delete-workflow-runs@main
+  #       with:
+  #         retain_days: 1
+  #         keep_minimum_runs: 1
           
   MT7621:
     runs-on: ubuntu-latest
