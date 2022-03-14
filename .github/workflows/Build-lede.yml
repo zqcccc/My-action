@@ -127,7 +127,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/prenv.sh)
+          bash <(curl -fsSL https://raw.githubusercontent.com/zqcccc/My-action/master/lede/prenv.sh)
 
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -142,8 +142,8 @@ jobs:
 
       - name: Download and Load custom configuration
         run: |
-          curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/mt7621/.config >.config
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/lede/diy.sh)
+          curl -fsSL https://raw.githubusercontent.com/zqcccc/My-action/master/lede/mt7621/.config >.config
+          bash <(curl -fsSL https://raw.githubusercontent.com/zqcccc/My-action/master/lede/diy.sh)
           echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
 
       - name: Download package
@@ -184,7 +184,7 @@ jobs:
         env:
           DEBIAN_FRONTEND: noninteractive
         run: |
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/openwrt/prenv.sh)
+          bash <(curl -fsSL https://raw.githubusercontent.com/zqcccc/My-action/master/openwrt/prenv.sh)
 
       - name: Checkout repo
         uses: actions/checkout@v2
@@ -199,8 +199,8 @@ jobs:
 
       - name: Download and Load custom configuration
         run: |
-          curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/openwrt/mt7621/.config >.config
-          bash <(curl -fsSL https://raw.githubusercontent.com/1orz/My-action/master/openwrt/diy.sh)
+          curl -fsSL https://raw.githubusercontent.com/zqcccc/My-action/master/openwrt/mt7621/.config >.config
+          bash <(curl -fsSL https://raw.githubusercontent.com/zqcccc/My-action/master/openwrt/diy.sh)
           echo -e 'CONFIG_DEVEL=y\nCONFIG_CCACHE=y' >> .config; make defconfig
 
       - name: Download package
